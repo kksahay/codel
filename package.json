@@ -1,19 +1,19 @@
 {
   "name": "codel",
-  "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "preact": "^10.16.0"
+    "express": "^4.18.2"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.5.0",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "nodemon": "^3.0.1"
   }
 }
