@@ -37,8 +37,10 @@ app.get('/api/get', (req, res) => {
     if (fs.existsSync(filePath)) {
         const data = JSON.parse(fs.readFileSync(filePath));
         const turn = data.language[data.turn];
+        const languages = data.language;
         return res.send({
-            turn
+            turn,
+            languages
         })
     } else {
         return res.status(400).send({
