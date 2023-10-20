@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import Display from "./components/Display"
 import Choice from "./components/Choice"
-import Modal from "./components/Modal"
 import { SelectionProvider } from "./context/selectionContext";
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
   const [languages, setLanguages] = useState([]);
@@ -65,25 +65,53 @@ function App() {
     }
   }
 
+  const checker = () => {
+    if(found) {
+      toast.success(`Congratulations! ${turn} is correct`)
+    } else {
+      toast.error(`Correct Answer is ${turn}`)
+    }
+  }
+
   return (
     <SelectionProvider value={{configSelection}}>
-      <div>
-        <div>
-          <Display turn={turn} />
+      <Toaster />
+      <div className="flex flex-col h-screen bg-black">
+        <div className="min-h-fit text-4xl text-center p-4 font-black font-mono text-white bg-black">
+          CODEL
         </div>
-        <div>
-          {choicesHistory.map((choice) => {
-            return (
-            <div key={choice.turn}>
-              <button disabled>{choice.turn}</button>
-              <Choice languages={languages} choice={choice} />
-            </div>)
-          })}
-          {choicesHistory.length < 5 && !found ?
-          (<div>
-            <button disabled>{choicesHistory.length + 1}</button>
-            <Choice languages={languages} />
-          </div>) : <Modal success={found}/>}
+        <div className="flex flex-row h-screen">
+          <div className="basis-1/2 bg-gray-900 self-center rounded-xs ml-2">
+            <Display turn={turn} />
+          </div>
+          <div className="basis-1/2 py-20">
+            {choicesHistory.map((choice) => {
+              return (
+              <div className="flex mb-5 justify-center" key={choice.turn}>
+                <div className="mr-2 w-10 self-center text-center">
+                   {
+                    choice.value !== turn ? (
+                        <div className="text-md">&#10060;</div>
+                    ) : (
+                      <div className="text-md">✅</div>
+                    )
+                   }
+                </div>
+                <div>
+                  <Choice languages={languages} choice={choice} />
+                </div>
+              </div>)
+            })}
+            {choicesHistory.length < 5 && !found ?
+            (<div className="flex justify-center">
+              <div className="mr-2 w-10 self-center text-center">
+                  <div className="text-2xl font-mono text-white font-black">{choicesHistory.length + 1}</div>
+              </div>
+              <div>
+                  <Choice languages={languages}/>
+              </div>
+            </div>) : checker()}
+          </div>
         </div>
       </div>
     </SelectionProvider>
