@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { useSelection } from "../context/selectionContext"
 
-function Choice({languages, choice}) {
-    const { configSelection } = useSelection();
+function Choice({languages, choice, addLang}) {
     const [input, setInput] = useState("");
     const handleSelect = (e) => {
         const language = e.target.value;
         if(e.key === 'Enter' && languages.includes(language)) {
             setInput("");
-            configSelection(language);
+            addLang(language);
         }
     }
     return (

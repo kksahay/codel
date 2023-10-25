@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Display from "./components/Display"
 import Choice from "./components/Choice"
-import { SelectionProvider } from "./context/selectionContext";
 import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
@@ -20,9 +19,6 @@ function App() {
     //   utilized: true
     // }
   ]);
-  const configSelection = (language) => {
-    addLang(language);
-  }
 
   async function getItems() {
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/get`, {
@@ -59,7 +55,6 @@ function App() {
           value: selection,
           utilized: true,
         }
-        console.log(newChoice)
         return [...prevChoice, newChoice];
       });
     }
@@ -74,7 +69,7 @@ function App() {
   }
 
   return (
-    <SelectionProvider value={{configSelection}}>
+    <>
       <Toaster />
       <div className="flex flex-col h-screen bg-black">
         <div className="min-h-fit text-4xl text-center p-4 font-black font-mono text-white bg-black">
@@ -108,13 +103,13 @@ function App() {
                   <div className="text-2xl font-mono text-white font-black">{choicesHistory.length + 1}</div>
               </div>
               <div>
-                  <Choice languages={languages}/>
+                  <Choice languages={languages} addLang={addLang}/>
               </div>
             </div>) : checker()}
           </div>
         </div>
       </div>
-    </SelectionProvider>
+    </>
   )
 }
 
