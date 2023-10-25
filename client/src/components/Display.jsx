@@ -1,25 +1,21 @@
 import { useState, useEffect } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { anOldHope } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import axios from 'axios';
 
 function Display({ turn }) {
   const [fileContent, setFileContent] = useState('');
 
   useEffect(() => {
     if(turn) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setFileContent(e.target.result);
-      };
-      fetch(`/../examples/${turn}.txt`)
-        .then((res) => res.text())
-        .then((data) => {
-          reader.readAsText(new Blob([data]));
-        })
-        .catch((error) => console.log(error));
+      (async () => {
+        const {data} = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/fetch`, {turn});
+        setFileContent(data);
+        return;
+      })();
     }
   }, [turn]);
-
+  
   return (
     <SyntaxHighlighter 
     language={`${turn}`} 
