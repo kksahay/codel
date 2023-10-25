@@ -1,6 +1,7 @@
 import express from 'express';
 import fs from 'fs';
 import cors from 'cors';
+import path from 'path';
 
 const app = express();
 app.use(cors());
@@ -32,6 +33,12 @@ app.post('/api/add', (req, res) => {
         })
     }
 });
+
+app.post('/api/fetch', (req, res) => {
+    const { turn } = req.body;
+    const filePath = path.join(process.cwd(), `examples/${turn}.txt`);
+    return res.status(200).sendFile(filePath);
+})
 
 app.get('/api/get', (req, res) => {
     if (fs.existsSync(filePath)) {
